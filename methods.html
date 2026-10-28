@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Métodos | Baggins Coffee</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Almendra:wght@400;700&family=Alegreya:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/css/flag-icons.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style type="text/tailwindcss">
+  @theme {
+    --color-forest: #0D1B16;
+    --color-moss: #15281F;
+    --color-roast: #3B2519;
+    --color-cream: #E9E5D3;
+    --color-amber: #E0B477;
+    --color-leaf: #8DB48A;
+    --color-rust: #E0907A;
+    --color-crema: #C99A63;
+    --font-display: "Almendra", "Palatino Linotype", Georgia, serif;
+    --font-body: "Alegreya", Georgia, serif;
+  }
+  html { color-scheme: dark; }
+  body { font-family: var(--font-body); font-size: 1.1rem; background-image: radial-gradient(ellipse at 50% -10%, #1f3d2d 0%, rgba(13,27,22,0) 62%); background-attachment: fixed; }
+  .frame { border: 1px solid rgba(224,180,119,.35); box-shadow: inset 0 0 0 5px rgba(0,0,0,.18), inset 0 0 0 6px rgba(224,180,119,.18); }
+  h1, h2, h3, .font-display { font-family: var(--font-display); }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body class="bg-forest text-cream antialiased">
+
+<header class="mx-auto flex max-w-5xl items-center justify-between px-5 py-5">
+  <a href="index.html" class="flex items-center gap-2 font-display text-2xl font-bold focus-visible:outline-2 focus-visible:outline-amber"><span class="relative size-6 shrink-0 rounded-full border-2 border-amber bg-leaf/40" aria-hidden="true"><span class="absolute right-1 top-1/2 size-1.5 -translate-y-1/2 rounded-full bg-amber"></span></span>Baggins Coffee</a>
+  <nav class="flex items-center gap-5 text-base font-medium">
+    <a class="hover:text-amber focus-visible:outline-2 focus-visible:outline-amber" href="index.html#moagem">Moagem</a>
+    <a class="hover:text-amber focus-visible:outline-2 focus-visible:outline-amber" href="index.html#calculadora">Proporção</a>
+    <a class="text-amber underline underline-offset-4" href="methods.html" aria-current="page">Métodos</a>
+    <a class="hover:text-amber focus-visible:outline-2 focus-visible:outline-amber" href="cafes.html">Cafés</a>
+  </nav>
+</header>
+
+<main class="mx-auto max-w-5xl px-5 pb-20">
+  <section class="pt-8 pb-10">
+    <h1 class="max-w-2xl text-4xl font-bold leading-[1.05] sm:text-6xl">Cada método tem um jeito de contar o café</h1>
+    <p class="mt-4 max-w-xl text-lg text-cream/75">O que a água tira do grão muda com o contato, a pressão e o filtro. Aqui está o que cada método entrega de melhor e onde ele costuma te trair.</p>
+    <nav id="jump" class="mt-6 flex flex-wrap gap-2" aria-label="Ir para um método"></nav>
+  </section>
+
+  <section id="comparar" class="scroll-mt-6 border-t border-cream/15 py-12">
+    <h2 class="text-3xl font-bold sm:text-4xl">Métodos lado a lado</h2>
+    <p class="mt-2 max-w-xl text-cream/75">Compare origem, moagem, cliques no M3 PRO, proporção, água e tempo. Toque no nome para ir ao guia do método.</p>
+    <div class="mt-6 overflow-x-auto"><table id="compare" class="w-full min-w-[48rem] text-left"></table></div>
+  </section>
+
+  <div id="list"></div>
+
+  <section id="kasuya" class="scroll-mt-6 border-t border-cream/15 py-12">
+    <h2 class="text-3xl font-bold sm:text-4xl">Receitas do Tetsu Kasuya</h2>
+    <p class="mt-3 max-w-prose text-cream/75">Campeão mundial do Brewers Cup em 2016, Kasuya criou o método 4:6. Os primeiros 40% da água definem o equilíbrio entre doçura e acidez, e os 60% finais definem a força. Moagem grossa, proporção 1 : 15, água a 92 °C, e cada despejo só começa quando o leito de café seca.</p>
+    <div id="k-tabs" role="tablist" aria-label="Receitas do Kasuya" class="mt-6 flex flex-wrap gap-2"></div>
+    <div class="mt-8 grid gap-8 lg:grid-cols-[18rem_1fr]">
+      <div>
+        <label for="k-dose" class="text-sm font-semibold">Café (g)</label>
+        <input id="k-dose" type="number" min="5" max="60" step="1" value="20" inputmode="decimal" class="mt-1 w-full rounded-xl border border-cream/20 bg-moss px-3 py-3 focus-visible:outline-2 focus-visible:outline-amber">
+        <dl id="k-spec" class="mt-5 divide-y divide-cream/10 text-sm"></dl>
+      </div>
+      <div>
+        <p id="k-desc" class="max-w-prose text-cream/80"></p>
+        <ol id="k-steps" class="mt-4"></ol>
+      </div>
+    </div>
+    <p class="mt-8 text-xs text-cream/50">Receitas adaptadas do método 4:6 de Tetsu Kasuya, a partir de material publicado pela Hario, Kurasu, Long Short London e Honest Coffee Guide. Os tempos são de referência: comece cada despejo quando o leito secar.</p>
+  </section>
+</main>
+
+<footer class="mx-auto max-w-5xl px-5 pb-10 text-sm text-cream/60">
+  Baggins Coffee. Valores de referência: ajuste ao seu café, ao seu moedor e ao seu paladar. Sempre cabe um segundo café da manhã.
+</footer>
+
+<script>
+/* clicks = ponto de partida no iCoffee M3 PRO (espresso, coado e prensa vêm do fabricante; os outros são estimados) */
+const M = [
+  { id:'ibrik', name:'Ibrik', lead:'Imersão com calor, sem filtro. Denso, aromático, com a borra no fundo da xícara.',
+    spec:{ Moagem:'Extrafina', 'M3 PRO':'2 a 4 cliques', Proporção:'1 : 10', Água:'Fervura leve', Tempo:'2 a 3 min' },
+    extrai:'Como o pó fica em contato direto com a água quente e nada o retém, sai muito corpo, óleos e amargor de torra, com pouca clareza de acidez.',
+    best:['Corpo denso e aroma intenso','Espuma natural no topo','Equipamento barato e ritual próprio'],
+    worst:['Borra no copo','Esquenta demais com facilidade e amarga','Pede moagem muito fina, e nem todo moedor manual chega lá. Teste no seu'] },
+  { id:'espresso', name:'Espresso', lead:'Água sob pressão atravessando um bolo de café fino em menos de meio minuto.',
+    spec:{ Moagem:'Fina', 'M3 PRO':'6 a 10 cliques', Proporção:'1 : 2 (na bebida)', Água:'92 a 94 °C', Tempo:'25 a 30 s' },
+    extrai:'É a extração mais concentrada: pega acidez, doçura e amargor em poucos segundos, e emulsiona óleos que formam a crema.',
+    best:['Concentração e intensidade','Base para bebidas com leite','Textura cremosa e final longo'],
+    worst:['Quase não perdoa erro: um clique muda tudo','Exige máquina com pressão estável','Com moedor manual de cliques, o ajuste fica menos fino e o esforço é maior'] },
+  { id:'moka', name:'Moka', lead:'O vapor empurra a água pelo café e sobe para a parte de cima. Parente do espresso, mas com menos pressão.',
+    spec:{ Moagem:'Média-fina', 'M3 PRO':'11 a 14 cliques', Proporção:'1 : 10', Água:'Quente na base', Tempo:'4 a 5 min' },
+    extrai:'Entrega corpo e intensidade, com notas de chocolate e torra. A temperatura alta tende a puxar amargor se você demorar.',
+    best:['Corpo forte sem máquina','Barata e dura anos','Prática no dia a dia'],
+    worst:['Fácil de queimar o café','Pouco controle de temperatura e de tempo','Não é espresso, apesar de parecido'] },
+  { id:'aero', name:'AeroPress', lead:'Imersão curta seguida de pressão manual, com filtro de papel.',
+    spec:{ Moagem:'Média', 'M3 PRO':'14 a 18 cliques', Proporção:'1 : 15', Água:'85 a 92 °C', Tempo:'1:30 a 2:00' },
+    extrai:'Combina o corpo da imersão com a limpeza do papel. Dá para ir de um café leve e doce a um concentrado só mudando a receita.',
+    best:['Versátil e tolerante a erros','Compacta, boa para viagem','Xícara limpa e doce'],
+    worst:['Faz uma xícara por vez','Existem receitas demais, e isso confunde','Pressionar com força demais amarga'] },
+  { id:'syphon', name:'Syphon', lead:'A cafeteira a vácuo: o vapor empurra a água para o balão de cima, o café fica em imersão e, ao tirar o calor, o vácuo puxa a bebida de volta pelo filtro.',
+    spec:{ Moagem:'Média', 'M3 PRO':'14 a 18 cliques', Proporção:'1 : 15', Água:'91 a 94 °C', Tempo:'1:00 de infusão (≈ 2:30 no total)' },
+    extrai:'A imersão em temperatura estável extrai doçura e aroma de forma bem uniforme, e o filtro de pano ou papel devolve uma xícara limpa, de corpo médio e aromas muito vivos.',
+    best:['Temperatura estável durante toda a infusão','Xícara limpa e aromática, ótima para cafés florais','Um espetáculo na bancada'],
+    worst:['Vidro frágil e muitas peças para lavar','Pede fonte de calor própria (lamparina, butano ou halogênio)','O filtro de pano precisa de cuidado para não pegar cheiro'] },
+  { id:'melitta', name:'Melitta', lead:'O coador de fundo reto com poucos furinhos e filtro de papel, clássico das cozinhas brasileiras.',
+    spec:{ Moagem:'Média', 'M3 PRO':'14 a 18 cliques', Proporção:'1 : 15', Água:'92 a 96 °C', Tempo:'3:00 a 4:00' },
+    extrai:'Os furos pequenos seguram a água por mais tempo em contato com o pó, então sai um café com mais corpo e doçura que no V60, mantendo a limpeza do papel.',
+    best:['Barato e fácil de achar em qualquer mercado','O fluxo controlado perdoa despejos irregulares','Filtro de papel acessível'],
+    worst:['Pouco controle sobre o fluxo','Com moagem fina demais, entope e amarga','Menos clareza de acidez que os coadores de fluxo livre'] },
+  { id:'pano', name:'Coador de pano', lead:'O coado de vó: um saco de flanela ou algodão preso num aro, por onde a água passa devagar.',
+    spec:{ Moagem:'Média', 'M3 PRO':'14 a 18 cliques', Proporção:'1 : 14', Água:'92 a 96 °C', Tempo:'3:00 a 4:00' },
+    extrai:'O pano deixa passar parte dos óleos que o papel seguraria, então a xícara ganha corpo e textura, mas continua sem borra.',
+    best:['Mais corpo e textura que o coado de papel','Reutilizável e barato','Sabor afetivo, de café de casa'],
+    worst:['Precisa ferver e secar bem o pano, senão pega cheiro','O pano envelhece e muda o fluxo','Difícil repetir a mesma xícara com precisão'] },
+  { id:'v60', name:'V60', lead:'Filtro de papel, água despejada aos poucos e café passando por gravidade.',
+    spec:{ Moagem:'Média-grossa', 'M3 PRO':'18 a 22 cliques', Proporção:'1 : 16', Água:'92 a 96 °C', Tempo:'2:30 a 3:15' },
+    extrai:'O papel retém os óleos e a água sempre nova passando pelo café destaca acidez, notas florais, frutadas e uma doçura limpa.',
+    best:['Clareza e complexidade de sabor','Controle total do despejo','Ótimo para cafés de torra clara'],
+    worst:['Pede técnica e uma balança','Pequenas variações de moagem ou despejo mudam muito a xícara','Chaleira com bico fino ajuda bastante'],
+    recipe:true },
+  { id:'koar', name:'Koar', lead:'Coador brasileiro criado em Pernambuco, com 16 sulcos em onda que afastam o filtro de papel das paredes.',
+    spec:{ Moagem:'Média-grossa', 'M3 PRO':'18 a 22 cliques', Proporção:'1 : 15', Água:'92 a 94 °C', Tempo:'2:30 a 3:00' },
+    extrai:'Como o papel não gruda na parede, a água escoa rápido e por igual. A proposta do método é acentuar a doçura e suavizar a acidez, sem deixar o café amargar.',
+    best:['Doçura em destaque e acidez suave','Fluxo rápido e uniforme, difícil de entupir','Feito no Brasil, em cerâmica, acrílico ou madeira'],
+    worst:['Pede o filtro de papel próprio, tamanho 02','Com o fluxo rápido, moagem grossa demais deixa o café ralo','Tem menos receitas publicadas que o V60'] },
+  { id:'kalita', name:'Kalita Wave', lead:'Coador de fundo chato com três furinhos e filtro de papel ondulado.',
+    spec:{ Moagem:'Média-grossa', 'M3 PRO':'18 a 22 cliques', Proporção:'1 : 16', Água:'92 a 96 °C', Tempo:'3:00 a 3:30' },
+    extrai:'O leito plano e as ondas do filtro fazem a água passar por igual pelo café, então a extração fica uniforme: doce, equilibrada e com acidez bem integrada.',
+    best:['Extração uniforme e consistente','Perdoa mais o despejo que o V60','Xícara doce e redonda'],
+    worst:['O filtro ondulado é mais caro e amassa fácil','Menos destaque para acidez e notas florais que o V60','Os furos pequenos entopem com moagem fina'] },
+  { id:'b75', name:'B75', lead:'Coador de fundo chato da linha Crystal Eye, da Timemore, com parede a 75° e 20 ranhuras internas.',
+    spec:{ Moagem:'Média-grossa', 'M3 PRO':'18 a 22 cliques', Proporção:'1 : 16', Água:'92 °C', Tempo:'2:30 a 3:15' },
+    extrai:'O fundo plano e as ranhuras controlam o fluxo e mantêm o leito uniforme. A água desce um pouco mais devagar que no V60, e a xícara sai mais doce e redonda, sem perder clareza.',
+    best:['Doçura e corpo com a limpeza do papel','Um despejo contínuo já funciona bem','Aceita filtros tipo cesta, como o Kalita 155'],
+    worst:['Poucas receitas próprias: muita gente usa as do April Brewer','Mais caro e difícil de achar no Brasil','Faz 1 a 2 xícaras por vez'] },
+  { id:'clever', name:'Clever', lead:'Coador com válvula no fundo: o café fica em imersão e só escoa quando você apoia o coador na xícara.',
+    spec:{ Moagem:'Média-grossa', 'M3 PRO':'18 a 22 cliques', Proporção:'1 : 16', Água:'93 a 96 °C', Tempo:'3:00 a 3:30' },
+    extrai:'Junta o corpo e a doçura da imersão, como na prensa, com a limpeza do filtro de papel. A extração é estável porque o tempo de contato não depende do seu despejo.',
+    best:['Quase impossível de errar','Corpo de prensa com xícara limpa','Usa filtro de papel comum'],
+    worst:['Menos acidez e brilho que um coado de fluxo livre','A válvula precisa de limpeza para não vazar','A maioria dos modelos é de plástico'] },
+  { id:'chemex', name:'Chemex', lead:'Funil de vidro com um filtro bem mais grosso que o do V60.',
+    spec:{ Moagem:'Grossa', 'M3 PRO':'22 a 25 cliques', Proporção:'1 : 16', Água:'93 a 96 °C', Tempo:'4:00' },
+    extrai:'O filtro grosso segura mais óleos e finos, resultando em uma xícara muito limpa, leve e com acidez delicada.',
+    best:['Limpeza e brilho no sabor','Ótima para servir 2 a 4 pessoas','Linda na mesa'],
+    worst:['Mais lenta que o V60','Filtro mais caro e vidro frágil','Corpo mais leve, o que pode soar aguado para quem gosta de café encorpado'] },
+  { id:'french', name:'Prensa francesa', lead:'Imersão total com filtro metálico: café e água ficam juntos até o êmbolo descer.',
+    spec:{ Moagem:'Bem grossa', 'M3 PRO':'25 a 29 cliques', Proporção:'1 : 15', Água:'93 °C', Tempo:'4:00' },
+    extrai:'Todos os óleos e finos passam pelo metal, então a bebida fica encorpada, redonda e com acidez baixa.',
+    best:['Muito simples e difícil de errar','Corpo e textura cheios','Não gasta filtro de papel'],
+    worst:['Sedimento no fundo da xícara','Menos clareza de sabor','Continua extraindo se o café ficar na prensa, então sirva tudo logo'] },
+  { id:'cold', name:'Cold brew', lead:'Imersão em água fria ou gelada por horas.',
+    spec:{ Moagem:'Extragrossa', 'M3 PRO':'28 a 30 cliques', Proporção:'1 : 8 (concentrado)', Água:'Ambiente ou geladeira', Tempo:'12 a 18 h' },
+    extrai:'A água fria puxa pouca acidez e pouco amargor. Sai um café doce, suave e achocolatado, com menos aromas voláteis.',
+    best:['Suave, doce e de baixa acidez','Concentrado rende várias doses','Perfeito para dias quentes'],
+    worst:['Leva horas e pede planejamento','Menos aroma e complexidade','Guarde sempre na geladeira e consuma em poucos dias'] }
+];
+
+/* Local de origem de cada método: [código da bandeira (ISO), país, detalhe] */
+const ORIGIN = {
+  ibrik:    ['tr', 'Turquia', 'Império Otomano, séc. XVI'],
+  espresso: ['it', 'Itália', 'Turim e Milão, de 1884 a 1901'],
+  moka:     ['it', 'Itália', 'Alfonso Bialetti, 1933'],
+  aero:     ['us', 'Estados Unidos', 'Alan Adler, Califórnia, 2005'],
+  syphon:   ['de', 'Alemanha', 'Loeff, Berlim, década de 1830'],
+  melitta:  ['de', 'Alemanha', 'Melitta Bentz, Dresden, 1908'],
+  pano:     ['br', 'Brasil', 'Tradição das cozinhas brasileiras'],
+  v60:      ['jp', 'Japão', 'Hario, 2004'],
+  koar:     ['br', 'Brasil', 'Pernambuco, 2017'],
+  kalita:   ['jp', 'Japão', 'Kalita, Yokohama'],
+  b75:      ['cn', 'China', 'Timemore, linha Crystal Eye'],
+  clever:   ['tw', 'Taiwan', 'Anos 2000'],
+  chemex:   ['us', 'Estados Unidos', 'Peter Schlumbohm, 1941'],
+  french:   ['fr', 'França', 'Mayer e Delforge, Paris, 1852'],
+  cold:     ['jp', 'Japão', 'Estilo Kyoto, séc. XVII (a versão mais citada)']
+};
+const flag = id => `<span class="fi fi-${ORIGIN[id][0]} shrink-0 rounded-[2px] shadow-sm" aria-hidden="true"></span>`;
+
+/* Receita padrão de V60 (despejos em gramas; "total" é a soma) */
+const V60_STEPS = [
+  { t:'0:00', s:0,   g:70,  note:'Blooming: molhe tudo e espere' },
+  { t:'0:30', s:30,  g:100, note:'Despejo' },
+  { t:'1:45', s:105, g:80,  note:'Despejo' },
+  { t:'2:45', s:165, g:50,  note:'Despejo' },
+  { t:'3:15', s:195, g:0,   note:'Fim da extração' }
+];
+
+const $ = id => document.getElementById(id);
+
+$('jump').innerHTML = M.map(m => `<a href="#${m.id}" class="rounded-full border border-cream/20 bg-moss px-3.5 py-1.5 text-sm font-medium hover:border-amber hover:text-amber focus-visible:outline-2 focus-visible:outline-amber">${m.name}</a>`).join('');
+
+function recipeHTML() {
+  let acc = 0;
+  const rows = V60_STEPS.map(r => { acc += r.g; return `
+    <tr class="border-t border-cream/10"><td class="py-2 pr-4 font-semibold tabular-nums">${r.t}</td><td class="py-2 pr-4">${r.note}</td>
+    <td class="py-2 pr-4 tabular-nums">${r.g ? r.g + ' g' : '–'}</td><td class="py-2 tabular-nums text-cream/60">${r.g ? acc + ' g' : acc + ' g no total'}</td></tr>`; }).join('');
+  const total = V60_STEPS.reduce((a, r) => a + r.g, 0), end = V60_STEPS[V60_STEPS.length - 1].s;
+  const marks = V60_STEPS.slice(0, -1).map(r => `<span class="absolute top-0 h-full -translate-x-1/2" style="left:${(r.s / end * 100).toFixed(1)}%"><span class="block h-4 w-1 rounded-full bg-amber"></span></span>`).join('');
+  return `
+  <div class="mt-8 rounded-3xl bg-roast p-6 text-cream sm:p-8 frame">
+    <h3 class="text-2xl font-bold">Receita da casa para o V60</h3>
+    <p class="mt-1 text-sm text-cream/70">Total de ${total} g de água em ${V60_STEPS[V60_STEPS.length - 1].t}. Para 20 g de café, dá 1 : 15.</p>
+    <div class="relative mt-5 h-4 rounded-full bg-cream/15" role="img" aria-label="Linha do tempo: despejos em 0:00, 0:30, 1:45 e 2:45, fim em 3:15">${marks}</div>
+    <div class="mt-1 flex justify-between text-xs text-cream/60"><span>0:00</span><span>3:15</span></div>
+    <div class="mt-4 overflow-x-auto"><table class="w-full min-w-[22rem] text-left text-sm">
+      <thead class="text-cream/60"><tr><th class="py-1 pr-4 font-medium">Quando</th><th class="py-1 pr-4 font-medium">Etapa</th><th class="py-1 pr-4 font-medium">Despejar</th><th class="py-1 font-medium">Na balança</th></tr></thead>
+      <tbody>${rows}</tbody></table></div>
+  </div>`;
+}
+
+$('list').innerHTML = M.map(m => `
+  <article id="${m.id}" class="scroll-mt-6 border-t border-cream/15 py-12">
+    <div class="grid gap-8 lg:grid-cols-[18rem_1fr]">
+      <div>
+        <h2 class="text-3xl font-bold sm:text-4xl">${m.name}</h2>
+        <p class="mt-2 flex items-center gap-2 text-sm"><span class="text-lg leading-none">${flag(m.id)}</span><span><span class="text-cream/60">Origem:</span> <strong class="text-amber">${ORIGIN[m.id][1]}</strong> · <span class="text-cream/75">${ORIGIN[m.id][2]}</span></span></p>
+        <p class="mt-3 text-cream/75">${m.lead}</p>
+        <dl class="mt-5 divide-y divide-cream/10 text-sm">
+          ${Object.entries(m.spec).map(([k, v]) => `<div class="flex justify-between gap-4 py-2"><dt class="text-cream/60">${k}</dt><dd class="text-right font-semibold">${v}</dd></div>`).join('')}
+        </dl>
+      </div>
+      <div>
+        <h3 class="text-lg font-bold">O que ele extrai</h3>
+        <p class="mt-1 max-w-prose text-cream/80">${m.extrai}</p>
+        <div class="mt-6 grid gap-6 sm:grid-cols-2">
+          <div><h3 class="font-bold text-leaf">O que tem de melhor</h3>
+            <ul class="mt-2 space-y-2 text-sm">${m.best.map(x => `<li class="border-l-2 border-leaf pl-3">${x}</li>`).join('')}</ul></div>
+          <div><h3 class="font-bold text-rust">O que tem de pior</h3>
+            <ul class="mt-2 space-y-2 text-sm">${m.worst.map(x => `<li class="border-l-2 border-rust pl-3">${x}</li>`).join('')}</ul></div>
+        </div>
+        ${m.recipe ? recipeHTML() : ''}
+        <a href="index.html?m=${m.id}#calculadora" class="mt-6 inline-block text-sm font-semibold underline underline-offset-4 hover:text-amber focus-visible:outline-2 focus-visible:outline-amber">Calcular a receita de ${m.name}</a>
+      </div>
+    </div>
+  </article>`).join('');
+
+/* Atalhos extras no topo */
+const chip = (h, t) => `<a href="${h}" class="rounded-full border border-cream/20 bg-moss px-3.5 py-1.5 text-sm font-medium hover:border-amber hover:text-amber focus-visible:outline-2 focus-visible:outline-amber">${t}</a>`;
+$('jump').insertAdjacentHTML('afterbegin', chip('#comparar', 'Lado a lado'));
+$('jump').insertAdjacentHTML('beforeend', chip('#kasuya', 'Receitas do Kasuya'));
+
+/* Tabela comparativa */
+$('compare').innerHTML = `
+  <thead class="text-sm text-cream/60"><tr>${['Método', 'Origem', 'Moagem', 'M3 PRO', 'Proporção', 'Água', 'Tempo'].map(h => `<th class="py-2 pr-4 font-medium">${h}</th>`).join('')}</tr></thead>
+  <tbody>${M.map(m => `<tr class="border-t border-cream/10">
+    <td class="py-3 pr-4"><a href="#${m.id}" class="font-display text-lg font-bold underline-offset-4 hover:text-amber hover:underline focus-visible:outline-2 focus-visible:outline-amber">${m.name}</a></td>
+    <td class="py-3 pr-4"><span class="flex items-center gap-2 whitespace-nowrap">${flag(m.id)}${ORIGIN[m.id][1]}</span></td>
+    ${['Moagem', 'M3 PRO', 'Proporção', 'Água', 'Tempo'].map(k => `<td class="py-3 pr-4">${m.spec[k]}</td>`).join('')}</tr>`).join('')}</tbody>`;
+
+/* Receitas do Tetsu Kasuya (base: 20 g de café e 300 g de água; os despejos escalam com a dose) */
+const mmss = t => Math.floor(t / 60) + ':' + String(Math.round(t % 60)).padStart(2, '0');
+const KR = [
+  { id:'win',   name:'Receita campeã',      pours:[50, 70, 60, 60, 60], desc:'A receita da final de 2016. O primeiro despejo menor (50 g) inclina a xícara para mais doçura, e os três despejos finais de 60 g dão a força.' },
+  { id:'bal',   name:'4:6 equilibrado',     pours:[60, 60, 90, 90],     desc:'Divisão igual nos dois primeiros despejos e dois despejos de 90 g no final. Força média e xícara equilibrada.' },
+  { id:'doce',  name:'4:6 mais doce',       pours:[40, 80, 90, 90],     desc:'Primeiro despejo menor que o segundo: a xícara fica mais doce e mais redonda.' },
+  { id:'fru',   name:'4:6 mais ácido',      pours:[80, 40, 90, 90],     desc:'Primeiro despejo maior que o segundo: mais acidez e brilho, bom para cafés frutados de torra clara.' },
+  { id:'forte', name:'4:6 mais encorpado',  pours:[60, 60, 60, 60, 60], desc:'Três despejos de 60 g no final: mais força e mais corpo.' },
+  { id:'leve',  name:'4:6 mais leve',       pours:[60, 60, 180],        desc:'Um único despejo final de 180 g: xícara mais leve, de textura de chá, e tempo mais curto.' }
+];
+let kSel = 'win';
+
+function kRender() {
+  const dose = parseFloat($('k-dose').value) || 20, f = dose / 20, r = KR.find(x => x.id === kSel);
+  const amts = r.pours.map(x => Math.round(x * f)), dur = ml => Math.max(8, Math.round(ml / 5));
+  let cum = 0;
+  const st = amts.map((a, i) => {
+    cum += a;
+    return { title:`${i + 1}º despejo`, t:`${mmss(i * 45)} – ${mmss(i * 45 + dur(a))}`, ml:cum,
+      text: i === 0 ? `Despeje ${a} ml em espiral e espere o leito secar. Este despejo e o próximo ajustam doçura e acidez.`
+          : i === 1 ? `Suba até ${cum} ml. Com ele termina a fase que equilibra doçura e acidez (40% da água).`
+          : `Suba até ${cum} ml. ${i === amts.length - 1 ? 'Este é o último despejo.' : 'Os despejos finais definem a força.'}` };
+  });
+  const lastEnd = (amts.length - 1) * 45 + dur(amts[amts.length - 1]), end = lastEnd + 40;
+  st.push({ title:'Drawdown', t:`${mmss(lastEnd)} – ${mmss(end)}`, ml:cum, text:`Deixe escoar por completo. Tempo total próximo de ${mmss(end)}.` });
+
+  $('k-tabs').innerHTML = KR.map(x => `<button role="tab" aria-selected="${x.id === kSel}" data-id="${x.id}" class="rounded-full border px-3.5 py-1.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-amber ${x.id === kSel ? 'border-amber bg-amber text-forest' : 'border-cream/20 bg-moss hover:border-amber hover:text-amber'}">${x.name}</button>`).join('');
+  $('k-desc').textContent = r.desc;
+  $('k-spec').innerHTML = [['Café', dose + ' g'], ['Água', cum + ' g (1 : 15)'], ['Temperatura', '92 °C'], ['Moagem', 'Grossa'], ['M3 PRO', '22 a 25 cliques (estimado)'], ['Tempo total', '≈ ' + mmss(end)]]
+    .map(([k, v]) => `<div class="flex justify-between gap-4 py-2"><dt class="text-cream/60">${k}</dt><dd class="text-right font-semibold">${v}</dd></div>`).join('');
+  $('k-steps').innerHTML = st.map((x, i) => `
+    <li class="flex gap-4 border-t border-cream/10 py-4">
+      <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-amber font-bold text-forest">${i + 1}</span>
+      <div><p class="font-display text-lg font-bold">${x.title}</p><p class="text-sm text-amber">${x.t} · ${x.ml} ml</p><p class="mt-1 text-sm text-cream/80">${x.text}</p></div>
+    </li>`).join('');
+}
+$('k-tabs').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { kSel = b.dataset.id; kRender(); } });
+$('k-dose').addEventListener('input', kRender);
+kRender();
+</script>
+</body>
+</html>
