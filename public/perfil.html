@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meu perfil | Baggins Coffee</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Almendra:wght@400;700&family=Alegreya:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/css/flag-icons.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style type="text/tailwindcss">
+  @theme {
+    --color-forest: #0D1B16;
+    --color-moss: #15281F;
+    --color-roast: #3B2519;
+    --color-cream: #E9E5D3;
+    --color-amber: #E0B477;
+    --color-leaf: #8DB48A;
+    --color-rust: #E0907A;
+    --color-crema: #C99A63;
+    --font-display: "Almendra", "Palatino Linotype", Georgia, serif;
+    --font-body: "Alegreya", Georgia, serif;
+  }
+  html { color-scheme: dark; }
+  body { font-family: var(--font-body); font-size: 1.1rem; background-image: radial-gradient(ellipse at 50% -10%, #1f3d2d 0%, rgba(13,27,22,0) 62%); background-attachment: fixed; }
+  .frame { border: 1px solid rgba(224,180,119,.35); box-shadow: inset 0 0 0 5px rgba(0,0,0,.18), inset 0 0 0 6px rgba(224,180,119,.18); }
+  h1, h2, h3, .font-display { font-family: var(--font-display); }
+  .inp { @apply mt-1 w-full rounded-xl border border-cream/20 bg-forest px-3 py-3 text-cream focus-visible:outline-2 focus-visible:outline-amber; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body class="bg-forest text-cream antialiased">
+
+<header class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-5 py-5">
+  <a href="index.html" class="flex items-center gap-2 font-display text-2xl font-bold focus-visible:outline-2 focus-visible:outline-amber"><span class="relative size-6 shrink-0 rounded-full border-2 border-amber bg-leaf/40" aria-hidden="true"><span class="absolute right-1 top-1/2 size-1.5 -translate-y-1/2 rounded-full bg-amber"></span></span>Baggins Coffee</a>
+  <nav class="flex flex-wrap items-center justify-end gap-x-5 gap-y-2 text-base font-medium">
+    <a class="hover:text-amber focus-visible:outline-2 focus-visible:outline-amber" href="index.html#moagem">Moagem</a>
+    <a class="hover:text-amber focus-visible:outline-2 focus-visible:outline-amber" href="index.html#calculadora">Proporção</a>
+    <a class="hover:text-amber focus-visible:outline-2 focus-visible:outline-amber" href="methods.html">Métodos</a>
+    <a class="hover:text-amber focus-visible:outline-2 focus-visible:outline-amber" href="cafes.html">Cafés</a>
+    <a class="hover:text-amber focus-visible:outline-2 focus-visible:outline-amber" href="casas.html">Casas</a>
+    <a class="hover:text-amber focus-visible:outline-2 focus-visible:outline-amber" href="legends.html">Legends</a>
+    <span id="auth-slot"></span>
+  </nav>
+</header>
+
+<main class="mx-auto max-w-5xl px-5 pb-20">
+  <section class="pt-8 pb-8">
+    <p class="text-sm font-semibold uppercase tracking-[.2em] text-amber">✦ Gandalf Creations ✦</p>
+    <h1 class="mt-1 text-4xl font-bold sm:text-5xl">Meu perfil</h1>
+  </section>
+
+  <p id="status" class="border-t border-cream/15 py-8 text-cream/70" role="status">Carregando o seu perfil...</p>
+
+  <div id="conteudo" class="hidden grid gap-8 border-t border-cream/15 pt-8 lg:grid-cols-[18rem_1fr]">
+    <!-- Cartão do perfil -->
+    <aside class="self-start rounded-3xl bg-moss p-6 frame">
+      <div class="flex items-center gap-4">
+        <span id="c-inicial" class="flex size-16 shrink-0 items-center justify-center rounded-full border-2 border-amber bg-leaf/30 font-display text-3xl font-bold" aria-hidden="true"></span>
+        <div class="min-w-0">
+          <p id="c-nome" class="font-display text-2xl font-bold leading-tight"></p>
+          <p id="c-usuario" class="truncate text-amber"></p>
+        </div>
+      </div>
+      <p id="c-bio" class="mt-4 whitespace-pre-line text-sm text-cream/80"></p>
+      <div id="c-tags" class="mt-4 flex flex-wrap gap-2"></div>
+      <dl id="c-favs" class="mt-5 divide-y divide-cream/10 text-sm"></dl>
+      <dl class="mt-5 grid grid-cols-3 gap-2 text-center">
+        <div class="rounded-2xl bg-forest p-3"><dt class="text-xs text-cream/60">Cafés</dt><dd id="s-cafes" class="font-display text-2xl font-bold"></dd></div>
+        <div class="rounded-2xl bg-forest p-3"><dt class="text-xs text-cream/60">Receitas</dt><dd id="s-receitas" class="font-display text-2xl font-bold"></dd></div>
+        <div class="rounded-2xl bg-forest p-3"><dt class="text-xs text-cream/60">Casas</dt><dd id="s-casas" class="font-display text-2xl font-bold"></dd></div>
+      </dl>
+      <p id="c-desde" class="mt-4 text-xs text-cream/50"></p>
+    </aside>
+
+    <!-- Edição -->
+    <form id="perfil-form" novalidate>
+      <h2 class="border-b border-cream/15 pb-1 text-2xl font-bold text-amber">Conta</h2>
+      <div class="mt-4 grid gap-4 sm:grid-cols-2">
+        <div>
+          <label for="p-nome" class="text-sm font-semibold">Nome *</label>
+          <input id="p-nome" autocomplete="name" maxlength="80" class="inp">
+        </div>
+        <div>
+          <label for="p-usuario" class="text-sm font-semibold">Usuário</label>
+          <div class="mt-1 flex items-center rounded-xl border border-cream/20 bg-forest pl-3 focus-within:outline-2 focus-within:outline-amber">
+            <span class="text-cream/60" aria-hidden="true">@</span>
+            <input id="p-usuario" maxlength="30" autocomplete="username" spellcheck="false" aria-describedby="p-usuario-dica" class="w-full bg-transparent px-1 py-3 focus:outline-none">
+          </div>
+          <p id="p-usuario-dica" class="mt-1 text-xs text-cream/60">3 a 30 caracteres: letras sem acento, números, ponto ou _.</p>
+        </div>
+        <div>
+          <label for="p-email" class="text-sm font-semibold">E-mail</label>
+          <input id="p-email" type="email" disabled class="inp cursor-not-allowed opacity-60">
+        </div>
+        <div>
+          <label for="p-telefone" class="text-sm font-semibold">Telefone</label>
+          <input id="p-telefone" type="tel" autocomplete="tel" maxlength="20" placeholder="(51) 99999-0000" class="inp">
+        </div>
+        <div class="sm:col-span-2">
+          <label for="p-cidade" class="text-sm font-semibold">Cidade</label>
+          <input id="p-cidade" autocomplete="address-level2" maxlength="60" placeholder="Ex.: Porto Alegre (RS)" class="inp">
+        </div>
+        <div class="sm:col-span-2">
+          <label for="p-bio" class="text-sm font-semibold">Sobre você</label>
+          <textarea id="p-bio" rows="3" maxlength="300" placeholder="Como o café entrou na sua vida?" class="inp"></textarea>
+          <p class="mt-1 text-right text-xs text-cream/50"><span id="p-bio-n">0</span>/300</p>
+        </div>
+      </div>
+
+      <h2 class="mt-8 border-b border-cream/15 pb-1 text-2xl font-bold text-amber">Seu café</h2>
+      <div class="mt-4 grid gap-4 sm:grid-cols-2">
+        <div>
+          <label for="p-metodo" class="text-sm font-semibold">Método favorito</label>
+          <select id="p-metodo" class="inp"></select>
+        </div>
+        <div>
+          <label for="p-cafe" class="text-sm font-semibold">Café favorito</label>
+          <select id="p-cafe" class="inp"></select>
+        </div>
+        <div>
+          <label for="p-perfil" class="text-sm font-semibold">Perfil sensorial preferido</label>
+          <select id="p-perfil" class="inp"></select>
+        </div>
+        <div>
+          <label for="p-nivel" class="text-sm font-semibold">Nível no café</label>
+          <select id="p-nivel" class="inp"></select>
+        </div>
+        <div>
+          <label for="p-moedor" class="text-sm font-semibold">Seu moedor</label>
+          <input id="p-moedor" maxlength="60" placeholder="Ex.: iCoffee M3 PRO" class="inp">
+        </div>
+        <div>
+          <label for="p-xicaras" class="text-sm font-semibold">Xícaras por dia</label>
+          <input id="p-xicaras" type="number" min="0" max="20" step="1" inputmode="numeric" class="inp">
+        </div>
+      </div>
+
+      <p id="p-err" class="mt-6 hidden rounded-xl bg-rust/15 px-3 py-2 text-sm text-rust" role="alert"></p>
+      <div class="mt-8 flex flex-wrap items-center justify-end gap-4">
+        <p id="p-ok" class="text-sm text-leaf" role="status"></p>
+        <button class="rounded-full bg-amber px-6 py-3 font-semibold text-forest hover:bg-crema focus-visible:outline-2 focus-visible:outline-cream">Salvar perfil</button>
+      </div>
+    </form>
+  </div>
+</main>
+
+<footer class="mx-auto max-w-5xl px-5 pb-10 text-sm text-cream/60">
+  Baggins Coffee. Sempre cabe um segundo café da manhã.
+</footer>
+
+<script src="js/common.js"></script>
+<script src="js/perfil.js"></script>
+</body>
+</html>

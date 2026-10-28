@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Casas | Baggins Coffee</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Almendra:wght@400;700&family=Alegreya:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/css/flag-icons.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style type="text/tailwindcss">
+  @theme {
+    --color-forest: #0D1B16;
+    --color-moss: #15281F;
+    --color-roast: #3B2519;
+    --color-cream: #E9E5D3;
+    --color-amber: #E0B477;
+    --color-leaf: #8DB48A;
+    --color-rust: #E0907A;
+    --color-crema: #C99A63;
+    --font-display: "Almendra", "Palatino Linotype", Georgia, serif;
+    --font-body: "Alegreya", Georgia, serif;
+  }
+  html { color-scheme: dark; }
+  body { font-family: var(--font-body); font-size: 1.1rem; background-image: radial-gradient(ellipse at 50% -10%, #1f3d2d 0%, rgba(13,27,22,0) 62%); background-attachment: fixed; }
+  .frame { border: 1px solid rgba(224,180,119,.35); box-shadow: inset 0 0 0 5px rgba(0,0,0,.18), inset 0 0 0 6px rgba(224,180,119,.18); }
+  h1, h2, h3, .font-display { font-family: var(--font-display); }
+  .inp { @apply mt-1 w-full rounded-xl border border-cream/20 bg-forest px-3 py-3 text-cream focus-visible:outline-2 focus-visible:outline-amber; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body class="bg-forest text-cream antialiased">
+
+<header class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-5 py-5">
+  <a href="index.html" class="flex items-center gap-2 font-display text-2xl font-bold focus-visible:outline-2 focus-visible:outline-amber"><span class="relative size-6 shrink-0 rounded-full border-2 border-amber bg-leaf/40" aria-hidden="true"><span class="absolute right-1 top-1/2 size-1.5 -translate-y-1/2 rounded-full bg-amber"></span></span>Baggins Coffee</a>
+  <nav class="flex flex-wrap items-center justify-end gap-x-5 gap-y-2 text-base font-medium">
+    <a class="hover:text-amber focus-visible:outline-2 focus-visible:outline-amber" href="index.html#moagem">Moagem</a>
+    <a class="hover:text-amber focus-visible:outline-2 focus-visible:outline-amber" href="index.html#calculadora">Proporção</a>
+    <a class="hover:text-amber focus-visible:outline-2 focus-visible:outline-amber" href="methods.html">Métodos</a>
+    <a class="hover:text-amber focus-visible:outline-2 focus-visible:outline-amber" href="cafes.html">Cafés</a>
+    <a class="text-amber underline underline-offset-4" href="casas.html" aria-current="page">Casas</a>
+    <a class="hover:text-amber focus-visible:outline-2 focus-visible:outline-amber" href="legends.html">Legends</a>
+    <span id="auth-slot"></span>
+  </nav>
+</header>
+
+<main class="mx-auto max-w-5xl px-5 pb-20">
+  <section class="pt-8 pb-10">
+    <h1 class="max-w-2xl text-4xl font-bold leading-[1.05] sm:text-6xl">As casas</h1>
+    <p class="mt-4 max-w-xl text-lg text-cream/75">As torrefações e marcas que fazem os cafés da despensa. Visite o site de cada uma ou veja os cafés delas por aqui.</p>
+    <button type="button" id="abrir-casa" class="mt-6 rounded-full bg-amber px-5 py-2 font-semibold text-forest hover:bg-crema focus-visible:outline-2 focus-visible:outline-amber">Cadastrar uma casa</button>
+  </section>
+
+  <p id="status" class="border-t border-cream/15 py-10 text-cream/70" role="status">Carregando as casas...</p>
+  <div id="houses"></div>
+
+  <!-- Pop-up de cadastro de casa: Gandalf Creations -->
+  <dialog id="casa" aria-labelledby="casa-title" class="m-auto max-h-[92vh] w-[min(40rem,calc(100%-1.5rem))] overflow-y-auto rounded-3xl bg-moss p-0 text-cream frame backdrop:bg-black/75">
+    <form id="casa-form" class="p-5 sm:p-8" novalidate>
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-[.2em] text-amber">✦ Gandalf Creations ✦</p>
+          <h2 id="casa-title" class="mt-1 text-3xl font-bold">Cadastre uma casa</h2>
+          <p class="mt-1 text-sm text-cream/70">A torrefação ou marca que fabrica o café.</p>
+        </div>
+        <button type="button" data-close aria-label="Fechar" class="rounded-full px-2.5 py-1 text-xl hover:text-amber focus-visible:outline-2 focus-visible:outline-amber">✕</button>
+      </div>
+      <div class="mt-6 grid gap-4 sm:grid-cols-2">
+        <div>
+          <label for="c-nome" class="text-sm font-semibold">Nome *</label>
+          <input id="c-nome" maxlength="80" class="inp">
+        </div>
+        <div>
+          <label for="c-cidade" class="text-sm font-semibold">Cidade</label>
+          <input id="c-cidade" maxlength="60" placeholder="Ex.: Belo Horizonte (MG)" class="inp">
+        </div>
+        <div class="sm:col-span-2">
+          <label for="c-site" class="text-sm font-semibold">Site</label>
+          <input id="c-site" type="url" maxlength="200" placeholder="www.exemplo.com.br" class="inp">
+        </div>
+        <div class="sm:col-span-2">
+          <label for="c-sobre" class="text-sm font-semibold">Sobre a casa</label>
+          <textarea id="c-sobre" rows="4" maxlength="600" class="inp"></textarea>
+        </div>
+      </div>
+      <p id="c-err" class="mt-4 hidden rounded-xl bg-rust/15 px-3 py-2 text-sm text-rust" role="alert"></p>
+      <div class="mt-8 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+        <button type="button" data-close class="rounded-full border border-cream/25 px-5 py-3 font-semibold hover:border-amber hover:text-amber focus-visible:outline-2 focus-visible:outline-amber">Cancelar</button>
+        <button class="rounded-full bg-amber px-6 py-3 font-semibold text-forest hover:bg-crema focus-visible:outline-2 focus-visible:outline-cream">Salvar casa</button>
+      </div>
+    </form>
+  </dialog>
+
+  <p id="toast" role="status" class="fixed bottom-5 left-1/2 z-50 hidden max-w-[90%] -translate-x-1/2 rounded-full bg-leaf px-5 py-2 text-center font-semibold text-forest shadow-xl"></p>
+</main>
+
+<footer class="mx-auto max-w-5xl px-5 pb-10 text-sm text-cream/60">
+  Baggins Coffee. Os dados das casas vêm das páginas delas e de notícias do setor.
+</footer>
+
+<script src="js/common.js"></script>
+<script src="js/casas.js"></script>
+</body>
+</html>

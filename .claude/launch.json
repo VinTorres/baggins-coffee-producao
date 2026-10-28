@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "baggins",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["--env-file=.env", "server/index.js"],
+      "port": 3000
+    },
+    {
+      "name": "baggins-teste",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["--env-file=.env", "-e", "process.env.PORT='3001'; import('./server/index.js')"],
+      "port": 3001
+    }
+  ]
+}

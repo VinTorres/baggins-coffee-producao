@@ -1,86 +1,3 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Métodos | Baggins Coffee</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Almendra:wght@400;700&family=Alegreya:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/css/flag-icons.min.css">
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-<style type="text/tailwindcss">
-  @theme {
-    --color-forest: #0D1B16;
-    --color-moss: #15281F;
-    --color-roast: #3B2519;
-    --color-cream: #E9E5D3;
-    --color-amber: #E0B477;
-    --color-leaf: #8DB48A;
-    --color-rust: #E0907A;
-    --color-crema: #C99A63;
-    --font-display: "Almendra", "Palatino Linotype", Georgia, serif;
-    --font-body: "Alegreya", Georgia, serif;
-  }
-  html { color-scheme: dark; }
-  body { font-family: var(--font-body); font-size: 1.1rem; background-image: radial-gradient(ellipse at 50% -10%, #1f3d2d 0%, rgba(13,27,22,0) 62%); background-attachment: fixed; }
-  .frame { border: 1px solid rgba(224,180,119,.35); box-shadow: inset 0 0 0 5px rgba(0,0,0,.18), inset 0 0 0 6px rgba(224,180,119,.18); }
-  h1, h2, h3, .font-display { font-family: var(--font-display); }
-  html { scroll-behavior: smooth; }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-</style>
-</head>
-<body class="bg-forest text-cream antialiased">
-
-<header class="mx-auto flex max-w-5xl items-center justify-between px-5 py-5">
-  <a href="index.html" class="flex items-center gap-2 font-display text-2xl font-bold focus-visible:outline-2 focus-visible:outline-amber"><span class="relative size-6 shrink-0 rounded-full border-2 border-amber bg-leaf/40" aria-hidden="true"><span class="absolute right-1 top-1/2 size-1.5 -translate-y-1/2 rounded-full bg-amber"></span></span>Baggins Coffee</a>
-  <nav class="flex items-center gap-5 text-base font-medium">
-    <a class="hover:text-amber focus-visible:outline-2 focus-visible:outline-amber" href="index.html#moagem">Moagem</a>
-    <a class="hover:text-amber focus-visible:outline-2 focus-visible:outline-amber" href="index.html#calculadora">Proporção</a>
-    <a class="text-amber underline underline-offset-4" href="methods.html" aria-current="page">Métodos</a>
-    <a class="hover:text-amber focus-visible:outline-2 focus-visible:outline-amber" href="cafes.html">Cafés</a>
-  </nav>
-</header>
-
-<main class="mx-auto max-w-5xl px-5 pb-20">
-  <section class="pt-8 pb-10">
-    <h1 class="max-w-2xl text-4xl font-bold leading-[1.05] sm:text-6xl">Cada método tem um jeito de contar o café</h1>
-    <p class="mt-4 max-w-xl text-lg text-cream/75">O que a água tira do grão muda com o contato, a pressão e o filtro. Aqui está o que cada método entrega de melhor e onde ele costuma te trair.</p>
-    <nav id="jump" class="mt-6 flex flex-wrap gap-2" aria-label="Ir para um método"></nav>
-  </section>
-
-  <section id="comparar" class="scroll-mt-6 border-t border-cream/15 py-12">
-    <h2 class="text-3xl font-bold sm:text-4xl">Métodos lado a lado</h2>
-    <p class="mt-2 max-w-xl text-cream/75">Compare origem, moagem, cliques no M3 PRO, proporção, água e tempo. Toque no nome para ir ao guia do método.</p>
-    <div class="mt-6 overflow-x-auto"><table id="compare" class="w-full min-w-[48rem] text-left"></table></div>
-  </section>
-
-  <div id="list"></div>
-
-  <section id="kasuya" class="scroll-mt-6 border-t border-cream/15 py-12">
-    <h2 class="text-3xl font-bold sm:text-4xl">Receitas do Tetsu Kasuya</h2>
-    <p class="mt-3 max-w-prose text-cream/75">Campeão mundial do Brewers Cup em 2016, Kasuya criou o método 4:6. Os primeiros 40% da água definem o equilíbrio entre doçura e acidez, e os 60% finais definem a força. Moagem grossa, proporção 1 : 15, água a 92 °C, e cada despejo só começa quando o leito de café seca.</p>
-    <div id="k-tabs" role="tablist" aria-label="Receitas do Kasuya" class="mt-6 flex flex-wrap gap-2"></div>
-    <div class="mt-8 grid gap-8 lg:grid-cols-[18rem_1fr]">
-      <div>
-        <label for="k-dose" class="text-sm font-semibold">Café (g)</label>
-        <input id="k-dose" type="number" min="5" max="60" step="1" value="20" inputmode="decimal" class="mt-1 w-full rounded-xl border border-cream/20 bg-moss px-3 py-3 focus-visible:outline-2 focus-visible:outline-amber">
-        <dl id="k-spec" class="mt-5 divide-y divide-cream/10 text-sm"></dl>
-      </div>
-      <div>
-        <p id="k-desc" class="max-w-prose text-cream/80"></p>
-        <ol id="k-steps" class="mt-4"></ol>
-      </div>
-    </div>
-    <p class="mt-8 text-xs text-cream/50">Receitas adaptadas do método 4:6 de Tetsu Kasuya, a partir de material publicado pela Hario, Kurasu, Long Short London e Honest Coffee Guide. Os tempos são de referência: comece cada despejo quando o leito secar.</p>
-  </section>
-</main>
-
-<footer class="mx-auto max-w-5xl px-5 pb-10 text-sm text-cream/60">
-  Baggins Coffee. Valores de referência: ajuste ao seu café, ao seu moedor e ao seu paladar. Sempre cabe um segundo café da manhã.
-</footer>
-
-<script>
 /* clicks = ponto de partida no iCoffee M3 PRO (espresso, coado e prensa vêm do fabricante; os outros são estimados) */
 const M = [
   { id:'ibrik', name:'Ibrik', lead:'Imersão com calor, sem filtro. Denso, aromático, com a borra no fundo da xícara.',
@@ -242,7 +159,7 @@ $('list').innerHTML = M.map(m => `
 /* Atalhos extras no topo */
 const chip = (h, t) => `<a href="${h}" class="rounded-full border border-cream/20 bg-moss px-3.5 py-1.5 text-sm font-medium hover:border-amber hover:text-amber focus-visible:outline-2 focus-visible:outline-amber">${t}</a>`;
 $('jump').insertAdjacentHTML('afterbegin', chip('#comparar', 'Lado a lado'));
-$('jump').insertAdjacentHTML('beforeend', chip('#kasuya', 'Receitas do Kasuya'));
+$('jump').insertAdjacentHTML('beforeend', chip('legends.html', '★ Coffee Legends'));
 
 /* Tabela comparativa */
 $('compare').innerHTML = `
@@ -251,46 +168,3 @@ $('compare').innerHTML = `
     <td class="py-3 pr-4"><a href="#${m.id}" class="font-display text-lg font-bold underline-offset-4 hover:text-amber hover:underline focus-visible:outline-2 focus-visible:outline-amber">${m.name}</a></td>
     <td class="py-3 pr-4"><span class="flex items-center gap-2 whitespace-nowrap">${flag(m.id)}${ORIGIN[m.id][1]}</span></td>
     ${['Moagem', 'M3 PRO', 'Proporção', 'Água', 'Tempo'].map(k => `<td class="py-3 pr-4">${m.spec[k]}</td>`).join('')}</tr>`).join('')}</tbody>`;
-
-/* Receitas do Tetsu Kasuya (base: 20 g de café e 300 g de água; os despejos escalam com a dose) */
-const mmss = t => Math.floor(t / 60) + ':' + String(Math.round(t % 60)).padStart(2, '0');
-const KR = [
-  { id:'win',   name:'Receita campeã',      pours:[50, 70, 60, 60, 60], desc:'A receita da final de 2016. O primeiro despejo menor (50 g) inclina a xícara para mais doçura, e os três despejos finais de 60 g dão a força.' },
-  { id:'bal',   name:'4:6 equilibrado',     pours:[60, 60, 90, 90],     desc:'Divisão igual nos dois primeiros despejos e dois despejos de 90 g no final. Força média e xícara equilibrada.' },
-  { id:'doce',  name:'4:6 mais doce',       pours:[40, 80, 90, 90],     desc:'Primeiro despejo menor que o segundo: a xícara fica mais doce e mais redonda.' },
-  { id:'fru',   name:'4:6 mais ácido',      pours:[80, 40, 90, 90],     desc:'Primeiro despejo maior que o segundo: mais acidez e brilho, bom para cafés frutados de torra clara.' },
-  { id:'forte', name:'4:6 mais encorpado',  pours:[60, 60, 60, 60, 60], desc:'Três despejos de 60 g no final: mais força e mais corpo.' },
-  { id:'leve',  name:'4:6 mais leve',       pours:[60, 60, 180],        desc:'Um único despejo final de 180 g: xícara mais leve, de textura de chá, e tempo mais curto.' }
-];
-let kSel = 'win';
-
-function kRender() {
-  const dose = parseFloat($('k-dose').value) || 20, f = dose / 20, r = KR.find(x => x.id === kSel);
-  const amts = r.pours.map(x => Math.round(x * f)), dur = ml => Math.max(8, Math.round(ml / 5));
-  let cum = 0;
-  const st = amts.map((a, i) => {
-    cum += a;
-    return { title:`${i + 1}º despejo`, t:`${mmss(i * 45)} – ${mmss(i * 45 + dur(a))}`, ml:cum,
-      text: i === 0 ? `Despeje ${a} ml em espiral e espere o leito secar. Este despejo e o próximo ajustam doçura e acidez.`
-          : i === 1 ? `Suba até ${cum} ml. Com ele termina a fase que equilibra doçura e acidez (40% da água).`
-          : `Suba até ${cum} ml. ${i === amts.length - 1 ? 'Este é o último despejo.' : 'Os despejos finais definem a força.'}` };
-  });
-  const lastEnd = (amts.length - 1) * 45 + dur(amts[amts.length - 1]), end = lastEnd + 40;
-  st.push({ title:'Drawdown', t:`${mmss(lastEnd)} – ${mmss(end)}`, ml:cum, text:`Deixe escoar por completo. Tempo total próximo de ${mmss(end)}.` });
-
-  $('k-tabs').innerHTML = KR.map(x => `<button role="tab" aria-selected="${x.id === kSel}" data-id="${x.id}" class="rounded-full border px-3.5 py-1.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-amber ${x.id === kSel ? 'border-amber bg-amber text-forest' : 'border-cream/20 bg-moss hover:border-amber hover:text-amber'}">${x.name}</button>`).join('');
-  $('k-desc').textContent = r.desc;
-  $('k-spec').innerHTML = [['Café', dose + ' g'], ['Água', cum + ' g (1 : 15)'], ['Temperatura', '92 °C'], ['Moagem', 'Grossa'], ['M3 PRO', '22 a 25 cliques (estimado)'], ['Tempo total', '≈ ' + mmss(end)]]
-    .map(([k, v]) => `<div class="flex justify-between gap-4 py-2"><dt class="text-cream/60">${k}</dt><dd class="text-right font-semibold">${v}</dd></div>`).join('');
-  $('k-steps').innerHTML = st.map((x, i) => `
-    <li class="flex gap-4 border-t border-cream/10 py-4">
-      <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-amber font-bold text-forest">${i + 1}</span>
-      <div><p class="font-display text-lg font-bold">${x.title}</p><p class="text-sm text-amber">${x.t} · ${x.ml} ml</p><p class="mt-1 text-sm text-cream/80">${x.text}</p></div>
-    </li>`).join('');
-}
-$('k-tabs').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { kSel = b.dataset.id; kRender(); } });
-$('k-dose').addEventListener('input', kRender);
-kRender();
-</script>
-</body>
-</html>
